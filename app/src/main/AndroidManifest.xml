@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/vivt_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/vivt_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VIVT_volunteer"
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="31">
+        <activity
+            android:name=".event.EventFinishActivity"
+            android:parentActivityName=".event.EventDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.ProfileVolunteerRequestActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".event.ParticipantsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.ProfileOtherUser"
+            android:exported="false"
+            android:label="@string/title_activity_profile_other_user"
+            android:parentActivityName=".event.RequestsActivity"
+            android:theme="@style/Theme.VIVT_volunteer" />
+        <activity
+            android:name=".profile.ProfileSecurity"
+            android:exported="false"
+            android:parentActivityName=".profile.ProfileSettings" />
+        <activity
+            android:name=".profile.ProfileSettings"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.VIVT_volunteer" />
+        <activity
+            android:name=".authorize.RecoveryAccountActivity"
+            android:exported="false"
+            android:parentActivityName=".authorize.AuthActivity" />
+        <activity
+            android:name=".event.RequestsActivity"
+            android:exported="false"
+            android:parentActivityName=".event.EventDetailsActivity" />
+        <activity
+            android:name=".profile.ProfilePersonalInfo"
+            android:exported="false"
+            android:parentActivityName=".profile.ProfileSettings" />
+        <activity
+            android:name=".event.EventDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".event.EventDetailsActivity" />
+        <activity
+            android:name=".event.EventCreateActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".authorize.RegActivity"
+            android:exported="false"
+            android:parentActivityName=".authorize.AuthActivity" />
+        <activity
+            android:name=".authorize.AuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

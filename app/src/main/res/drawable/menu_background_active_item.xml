@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Фон для нормального состояния -->
+    <item android:drawable="@drawable/my_button" android:state_checked="false"/>
+
+    <!-- Фон для активного состояния -->
+    <item android:drawable="@drawable/white_blue_backgorund_item" android:state_checked="true"/>
+
+</selector>

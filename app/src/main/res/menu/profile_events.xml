@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nowEvent"
+        app:actionLayout="@layout/profile_now_event_menu"
+        android:title="@string/profileNowEv"
+        android:icon="@null"/>
+    <item
+        android:id="@+id/prevEvent"
+        app:actionLayout="@layout/profile_prev_event_menu"
+        android:title="@string/profilePrevEv"
+        android:icon="@null"/>
+
+</menu>

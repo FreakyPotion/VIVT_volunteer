@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="mainBlue">#1C4BAA</color>
+    <color name="menuItemSelected">#193897</color>
+    <color name="progressBarEmpty">#4B94E3</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="Red">#880E0E</color>
+    <color name="Green">#1CAA23</color>
+    <color name="hint">#555555</color>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SelectedBNVIStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemBackground">@color/menuItemSelected</item>
+    </style>
+</resources>

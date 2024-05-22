@@ -1,0 +1,98 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">VIVT.Волонтёр</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Авторизация
+    <string name="authLogLabel">Почта</string>ъ
+    <string name="authPassLabel">Пароль</string>
+    <string name="authMainLabel">Добро пожаловать в систему VIVT.Волонтёр</string>
+    <string name="authRegLabel"><u>Регистрация</u></string>
+    <string name="authForgotPassLabel"><u>Забыли пароль?</u></string>
+    <string name="authEnter">Войти</string>
+
+    //Регистрация
+    <string name="regMainLabel">Регистрация</string>
+    <string name="regName">Имя</string>
+    <string name="regSurame">Фамилия</string>
+    <string name="regPatronymic">Отчество</string>
+    <string name="regCity">Выберите город</string>
+    <string name="regMale">М</string>
+    <string name="regFemale">Ж</string>
+    <string name="regVolunteer">Я волонтёр</string>
+    <string name="regOrganizer">Я организатор</string>
+    <string name="regPhone">Телефон (без 8)</string>
+    <string name="regEmail">Почта</string>
+    <string name="regSexLabel"><u>Ваш пол:</u></string>
+    <string name="regDone">Зарегистрироваться</string>
+    <string name="accessChars">абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ</string>
+
+    //Меню
+    <string name="menuEvents">События</string>
+    <string name="menuNotice">Уведомления</string>
+    <string name="menuProfile">Профиль</string>
+
+    //События
+    <string name="evCreTitle">Название:</string>
+    <string name="evCreAddImage">Изображение:</string>
+    <string name="evAdress">Адрес:</string>
+    <string name="evDate">Дата:</string>
+    <string name="evDirection">Направление:</string>
+    <string name="evOrganizer">Организатор:</string>
+    <string name="evMaxParticipants">Максимум участников:</string>
+    <string name="evDescription">Описание:</string>
+    <string name="evRequestsLabel">Заявки</string>
+    <string name="evParticipants">Список участников</string>
+    <string name="evPullRequest">Подать заявку</string>
+    <string name="evPuilledRequest">Заявка отправлена</string>
+    <string name="evAcceptedRequest">Вы участник</string>
+    <string name="evDeclinedRequest">Заявка отклонена</string>
+    <string name="evDeleteEvent">Удалить событие</string>
+    <string name="evPullRequestApllied">Заявка отправлена</string>
+    <string name="evFinishEvent">Завершить событие</string>
+    <string name="evFinish">Готово</string>
+    <string name="sampleText">Текст</string>
+    <string name="evHintSample">Введите текст…</string>
+    <string name="evCreate">Новое событие</string>
+    <string name="evCreateButton">СОЗДАТЬ СОБЫТИЕ</string>
+    <string name="evEdit">Редактирование</string>
+    <string name="evEditButton">Применить</string>
+    <string name="evSeeEvent">Подробнее</string>
+    <string name="evReqPartListEmpty">Список пуст</string>
+    <string name="evAskLoadImages">Загрузите фото с события для формирования отчёта</string>
+
+    //Восстановление аккаунта
+    <string name="recAccLabel">Восстановление аккаунта</string>
+    <string name="recAccButton">Отправить</string>
+
+    //Профиль
+    <string name="profileCity">Город:</string>
+    <string name="profileDate">Дата рождения:</string>
+    <string name="profilePhone">Телефон:</string>
+    <string name="profileEmail">Почта:</string>
+    <string name="profileOrg">Организация:</string>
+    <string name="profileLevel">Уровень</string>
+    <string name="profileRateStart">0</string>
+    <string name="profileRateCurrent">0</string>
+    <string name="profileRateEnd">1000</string>
+    <string name="profilePrevEv">Прошедшие мероприятия</string>
+    <string name="profileNowEv">Активные мероприятия</string>
+    <string name="profileSAccept">Применить изменения</string>
+    <string name="profileSettingsID">Личная информация</string>
+    <string name="profileSettingsSecurity">Безопасность</string>
+    <string name="profileExit">Выйти из аккаунта</string>
+    <string name="profileOldPass">Старый пароль:</string>
+    <string name="profileNewPass">Новый пароль:</string>
+    <string name="profileDoubleNewPass">Повторите новый пароль:</string>
+    <string name="profileSecurityApply">Сменить пароль</string>
+    <string name="profileEmptyList">Нет событий</string>
+    <string name="profileChangeAvatar">Сменить аватар</string>
+
+
+    //Запросы
+    <string name="reqAccept">Принять</string>
+    <string name="reqDecline">Отклонить</string>
+    <string name="title_activity_profile_other_user">ProfileOtherUser</string>
+
+
+</resources>
