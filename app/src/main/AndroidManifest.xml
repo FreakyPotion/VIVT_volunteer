@@ -12,15 +12,19 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/vivt_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/vivt_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VIVT_volunteer"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
         <activity
+            android:name=".event.EventReports"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".event.EventFinishActivity"
-            android:parentActivityName=".event.EventDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".event.EventDetailsActivity" />
         <activity
             android:name=".profile.ProfileVolunteerRequestActivity"
             android:exported="false"

@@ -1,3 +1,5 @@
 package com.vivt.vvolunteer.tables
 
-data class ReportTable(val index: Int, val imageURL: String)
+import android.net.Uri
+
+data class ReportTable(var imageURL: String)

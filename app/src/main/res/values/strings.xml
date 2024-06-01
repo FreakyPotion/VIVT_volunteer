@@ -60,6 +60,7 @@
     <string name="evSeeEvent">Подробнее</string>
     <string name="evReqPartListEmpty">Список пуст</string>
     <string name="evAskLoadImages">Загрузите фото с события для формирования отчёта</string>
+    <string name="evSeeReport">Отчёт</string>
 
     //Восстановление аккаунта
     <string name="recAccLabel">Восстановление аккаунта</string>

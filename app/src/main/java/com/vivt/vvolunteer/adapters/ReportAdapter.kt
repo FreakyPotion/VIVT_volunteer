@@ -1,19 +1,16 @@
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vivt.vvolunteer.R
 import com.vivt.vvolunteer.tables.ReportTable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class ReportAdapter(var reports: MutableList<ReportTable>, var context: Context, private val UploadImage: () -> Unit) : RecyclerView.Adapter<ReportAdapter.MyViewHolder>() {
+class ReportAdapter(var reports: List<ReportTable>, var context: Context) : RecyclerView.Adapter<ReportAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.addImage)
@@ -30,15 +27,21 @@ class ReportAdapter(var reports: MutableList<ReportTable>, var context: Context,
         val file = reports[position].imageURL
         Picasso.get().load(file).into(holder.image)
 
+        // Обработчик клика для выбора фотографии
         holder.image.setOnClickListener {
-            UploadImage()
+            openImageInGallery(Uri.parse(file))
         }
     }
 
-    // Метод для получения массива файлов
-    fun getFiles(): MutableList<ReportTable> {
-        return reports
+    private fun openImageInGallery(imageUri: Uri) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            setDataAndType(imageUri, "image/*")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        context.startActivity(intent)
     }
+
 
 
 }

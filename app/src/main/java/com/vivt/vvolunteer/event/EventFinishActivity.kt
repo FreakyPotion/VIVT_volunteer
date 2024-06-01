@@ -1,34 +1,22 @@
 package com.vivt.vvolunteer.event
 
-import ReportAdapter
-import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.media.Image
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.webkit.MimeTypeMap
 import android.widget.Button
-import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vivt.vvolunteer.DBFactory.DBConnector
 import com.vivt.vvolunteer.DBFactory.FTPUploader
 import com.vivt.vvolunteer.MainActivity
 import com.vivt.vvolunteer.R
-import com.vivt.vvolunteer.tables.EventsTable
-import com.vivt.vvolunteer.tables.ReportTable
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.sql.Connection
@@ -37,11 +25,12 @@ import java.sql.SQLException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class EventFinishActivity : AppCompatActivity() {
+class EventFinishActivity : AppCompatActivity(){
 
-    var imageURL: String? = ""
 
-    private lateinit var report: RecyclerView
+    val uries = mutableListOf<Uri>()
+    var selectedButton = 0
+    var changeList = Uri.parse("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +38,7 @@ class EventFinishActivity : AppCompatActivity() {
 
         val eventid = intent.getStringExtra("eventid")
 
-        val uries: MutableList<Pair<String, Uri?>> = mutableListOf()
-        val reports = arrayListOf<ReportTable>()
+
 
         val Tlb: androidx.appcompat.widget.Toolbar = findViewById(R.id.evReportTlb)
         setSupportActionBar(Tlb)
@@ -73,38 +61,72 @@ class EventFinishActivity : AppCompatActivity() {
         // Проверка на null для избежания NullPointerException
         val images = arrayOf(image1, image2, image3, image4, image5, image6, image7, image8, image9)
         val imagesURL = arrayListOf<String?>()
+        var nextImage = image1
         for (i in images.indices) {
             if (i < images.size - 1) {
                 images[i + 1].visibility = ImageView.INVISIBLE
             }
             images[i].setOnClickListener {
+                selectedButton = i
+                UploadImage()
                 lifecycleScope.launch(Dispatchers.IO) {
-                    UploadImage()
-                    imagesURL.add(imageURL)
-                    runOnUiThread {
-                        Picasso.get()
-                            .load("https://cdn0.iconfinder.com/data/icons/simple-lines-filled/32/22_Done_Circle_Complete_Downloaded_Added-1024.png")
-                            .into(images[i])
+                    if (i != images.size - 1) {
+                        nextImage = images[i + 1]
+                    }
+                    if (uries.size == 0) {
+                        while (uries.size == 0) {
+                            continue
+                        }
+                        runOnUiThread {
+                            Picasso.get().load(uries[i]).into(images[i])
                         // Проверка, что текущий элемент не последний в массиве
-                        if (i < images.size - 1) {
+                            if (nextImage.visibility != ImageView.VISIBLE) {
                             // Обращение к следующему элементу массива
-                            val nextImage = images[i + 1]
+                                nextImage.visibility = ImageView.VISIBLE
+                            }
+                        }
+
+                    } else if ((nextImage.visibility == ImageView.VISIBLE && i != 8) ||
+                        (nextImage.visibility == ImageView.VISIBLE && i == 8 && uries.size == 9)) {
+                        changeList = uries[i]
+                        while (changeList == uries[i]) {
+                            continue
+                        }
+                        runOnUiThread {
+                            Picasso.get().load(uries[i]).into(images[i])
+                        }
+
+                    } else if (nextImage.visibility != ImageView.VISIBLE || i == 8) {
+                        while (uries.size == selectedButton) {
+                            continue
+                        }
+                        runOnUiThread {
+                            Picasso.get().load(uries[i]).into(images[i])
                             nextImage.visibility = ImageView.VISIBLE
                         }
-                    }
+            }
+
                 }
+
+
+
+
             }
         }
 
+/*
         report = findViewById(R.id.evReportImageGrid)
         report.layoutManager = GridLayoutManager(this, 4)
-        report.adapter = ReportAdapter(reports, this, { UploadImage() })
+        report.adapter = ReportAdapter(reports, this)
+*/
 
 
         val applyBtn: Button = findViewById(R.id.evReportApply)
         applyBtn.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-
+                for (i in uries.indices) {
+                    imagesURL.add(FileToFTP(uries[i]))
+                }
                 Apply(eventid,imagesURL)
                 runOnUiThread{
                     val intent = Intent(this@EventFinishActivity, MainActivity::class.java)
@@ -112,6 +134,7 @@ class EventFinishActivity : AppCompatActivity() {
                 }
             }
         }
+
 
     }
 
@@ -171,15 +194,27 @@ class EventFinishActivity : AppCompatActivity() {
                 }
                 updatesql.close()
 
+                val imageSQL: PreparedStatement = connect.prepareStatement("INSERT INTO Отчёты (\"Event_ID\") VALUES (?);")
+                imageSQL.setInt(1, eventid!!.toInt())
+                imageSQL.executeUpdate()
+                imageSQL.close()
+
                 for (i in URLs.indices) {
-                    val imageSQL: PreparedStatement = connect.prepareStatement("UPDATE События " +
-                            "SET \"Отчёт_Фото\" = array_append(\"Отчёт_Фото\", ?)" +
-                            "WHERE \"Event_ID\" = ?;")
-                    imageSQL.setString(1, URLs[i])
-                    imageSQL.setInt(2, eventid!!.toInt())
-                    imageSQL.executeUpdate()
-                    imageSQL.close()
+                    val updateimageSQL: PreparedStatement = connect.prepareStatement("UPDATE Отчёты " +
+                            "SET \"Отчёт_Фото\" = array_append(\"Отчёт_Фото\", ?) " +
+                            "WHERE \"Event_ID\" = ?")
+                    updateimageSQL.setString(1, URLs[i])
+                    updateimageSQL.setInt(2, eventid.toInt())
+                    updateimageSQL.executeUpdate()
+                    updateimageSQL.close()
                 }
+
+                val statusSQL:  PreparedStatement = connect.prepareStatement("UPDATE События " +
+                        "SET Завершено = 1" +
+                        "WHERE \"Event_ID\" = ?")
+                statusSQL.setInt(1, eventid.toInt())
+                statusSQL.executeUpdate()
+                statusSQL.close()
 
             } else {
                 runOnUiThread {
@@ -201,8 +236,14 @@ class EventFinishActivity : AppCompatActivity() {
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         // Обработка выбранного изображения
         uri?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
+
+           /* lifecycleScope.launch(Dispatchers.IO) {
                 imageURL = FileToFTP(it)
+            }*/
+            if (selectedButton < uries.size) {
+                uries[selectedButton] = it
+            } else {
+                uries.add(it)
             }
         }
     }
@@ -220,7 +261,7 @@ class EventFinishActivity : AppCompatActivity() {
                 val extension = getContentResolver().getType(uri)?.let { type ->
                     MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
                 } ?: ""
-                val tempFile = createTempFile("image", ".$extension", cacheDir)
+                val tempFile = java.io.File.createTempFile("image", ".$extension", cacheDir)
                 tempFile.outputStream().use { output ->
                     stream.copyTo(output)
                 }
@@ -238,5 +279,4 @@ class EventFinishActivity : AppCompatActivity() {
             }
         }
     }
-
 }

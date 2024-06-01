@@ -167,6 +167,21 @@ class EventDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        // Кнопка "Отчёт"
+        val reportBtn: Button = findViewById(R.id.reportButton)
+        reportBtn.setOnClickListener {
+            val intent = Intent(this, EventReports::class.java)
+            intent.putExtra("eventid", eventid)
+            intent.putExtra("prevTitle", Title.text).toString()
+            intent.putExtra("prevDate", Date.text).toString()
+            intent.putExtra("prevAdress", Adress.text).toString()
+            intent.putExtra("prevMaxP", MaxParticipants.text).toString()
+            intent.putExtra("prevDesc", Desc.text).toString()
+            intent.putExtra("prevImage",intent.getStringExtra("prevImage")).toString()
+            startActivity(intent)
+        }
+
         // Настройки отображения в зависимости от пользователя
         val role = getSharedPreferences("logined", Context.MODE_PRIVATE)
         if (role.getInt("Role_ID", 0) != 0) {
@@ -178,22 +193,29 @@ class EventDetailsActivity : AppCompatActivity() {
 
         var creator: Int
         var finished: Boolean
-
+        var reported: Boolean
 
         // Отображение кнопки "Удалить событие" или "Завершить событие" в зависимости от прав на событие
         lifecycleScope.launch(Dispatchers.IO) {
             creator = getUserID(eventid)
             finished = getFinished(eventid)
+            reported = checkStatus(eventid)
             runOnUiThread {
                 if (role.getInt("User_ID", 0) != creator) {
                     deleteEvent.visibility = Button.GONE
                     requests.visibility = Button.GONE
                     finishEvent.visibility = Button.GONE
                     listParticipants.visibility = Button.GONE
+                    reportBtn.visibility = Button.GONE
                 } else {
                     if (!finished) {
                         finishEvent.visibility = Button.GONE
+                        reportBtn.visibility = Button.GONE
+                    } else if (!reported) {
+                        deleteEvent.visibility = Button.GONE
+                        reportBtn.visibility = Button.GONE
                     } else {
+                        finishEvent.visibility = Button.GONE
                         deleteEvent.visibility = Button.GONE
                     }
                 }
@@ -270,6 +292,45 @@ class EventDetailsActivity : AppCompatActivity() {
                 }
 
                 getDateSQL.close()
+            }
+            else {
+                runOnUiThread {
+                    Toast.makeText(this@EventDetailsActivity, "Сервер не отвечает", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            // Закрытие соединения с базой данных
+            connect?.close()
+        }
+        return toFinish
+    }
+
+
+    // Проверка статуса
+    private suspend fun checkStatus(eventid: String?): Boolean {
+        var connect: Connection? = null
+        var toFinish = false
+        var status = 0
+        try {
+            val connector = DBConnector()
+            connect = connector.getConnection()
+            if (connect != null) {
+                val getStatusSQL: PreparedStatement = connect.prepareStatement("SELECT Завершено FROM События WHERE \"Event_ID\" = ?")
+                if (eventid != null) {
+                    getStatusSQL.setInt(1, eventid.toInt())
+                }
+                val resultSet = getStatusSQL.executeQuery()
+                while (resultSet.next()) {
+                    status = resultSet.getInt(1)
+                    break
+                }
+                if (status != 0) {
+                    toFinish = true
+                }
+
+                getStatusSQL.close()
             }
             else {
                 runOnUiThread {
