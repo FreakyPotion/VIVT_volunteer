@@ -38,7 +38,7 @@ class EventFinishActivity : AppCompatActivity(){
 
         val eventid = intent.getStringExtra("eventid")
 
-
+        val textReport = intent.getStringExtra("textReport")
 
         val Tlb: androidx.appcompat.widget.Toolbar = findViewById(R.id.evReportTlb)
         setSupportActionBar(Tlb)
@@ -127,7 +127,7 @@ class EventFinishActivity : AppCompatActivity(){
                 for (i in uries.indices) {
                     imagesURL.add(FileToFTP(uries[i]))
                 }
-                Apply(eventid,imagesURL)
+                Apply(eventid,imagesURL, textReport)
                 runOnUiThread{
                     val intent = Intent(this@EventFinishActivity, MainActivity::class.java)
                     startActivity(intent)
@@ -163,8 +163,8 @@ class EventFinishActivity : AppCompatActivity(){
                 val intent = Intent()
                 intent.putExtra("eventid", eventid)
                 intent.putExtra("prevTitle", Title)
-                intent.putExtra("prevDate", Adress)
-                intent.putExtra("prevAdress",Date)
+                intent.putExtra("prevDate", Date)
+                intent.putExtra("prevAdress",Adress)
                 intent.putExtra("prevMaxP",MaxParticipants)
                 intent.putExtra("prevDesc", Desc)
                 intent.putExtra("prevImage",Image)
@@ -175,7 +175,7 @@ class EventFinishActivity : AppCompatActivity(){
         }
     }
 
-    private suspend fun Apply(eventid: String?, URLs: ArrayList<String?>) {
+    private suspend fun Apply(eventid: String?, URLs: ArrayList<String?>, textReport: String?) {
         var connect: Connection? = null
         try {
             val connector = DBConnector()
@@ -208,6 +208,12 @@ class EventFinishActivity : AppCompatActivity(){
                     updateimageSQL.executeUpdate()
                     updateimageSQL.close()
                 }
+
+                val textSQL: PreparedStatement = connect.prepareStatement("UPDATE Отчёты SET text = ? WHERE \"Event_ID\" = ?")
+                textSQL.setString(1, textReport)
+                textSQL.setInt(2,eventid.toInt())
+                textSQL.executeUpdate()
+                textSQL.close()
 
                 val statusSQL:  PreparedStatement = connect.prepareStatement("UPDATE События " +
                         "SET Завершено = 1" +

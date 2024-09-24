@@ -18,13 +18,17 @@
         android:theme="@style/Theme.VIVT_volunteer"
         tools:targetApi="31">
         <activity
+            android:name=".event.EventFinishText"
+            android:exported="false"
+            android:parentActivityName=".event.EventDetailsActivity" />
+        <activity
             android:name=".event.EventReports"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".event.EventFinishActivity"
             android:exported="false"
-            android:parentActivityName=".event.EventDetailsActivity" />
+            android:parentActivityName=".event.EventFinishText" />
         <activity
             android:name=".profile.ProfileVolunteerRequestActivity"
             android:exported="false"

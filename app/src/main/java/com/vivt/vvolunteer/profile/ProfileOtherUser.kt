@@ -58,7 +58,6 @@ class ProfileOtherUser : AppCompatActivity() {
                 val Title: String?
                 val Adress: String?
                 val Date: String?
-                val Dir: String?
                 val Org: String?
                 val MaxParticipants: String?
                 val Desc: String?
@@ -69,7 +68,6 @@ class ProfileOtherUser : AppCompatActivity() {
                 Title = intent.getStringExtra("prevTitle")
                 Adress = intent.getStringExtra("prevAdress")
                 Date = intent.getStringExtra("prevDate")
-                Dir = intent.getStringExtra("prevDir")
                 Org= intent.getStringExtra("prevOrg")
                 MaxParticipants= intent.getStringExtra("prevMaxP")
                 Desc = intent.getStringExtra("prevDesc")
@@ -79,9 +77,8 @@ class ProfileOtherUser : AppCompatActivity() {
                 val intent = Intent()
                 intent.putExtra("eventid", eventid)
                 intent.putExtra("prevTitle", Title)
-                intent.putExtra("prevDate", Adress)
-                intent.putExtra("prevAdress",Date)
-                intent.putExtra("prevDir", Dir)
+                intent.putExtra("prevDate", Date)
+                intent.putExtra("prevAdress",Adress)
                 intent.putExtra("prevOrg", Org)
                 intent.putExtra("prevMaxP",MaxParticipants)
                 intent.putExtra("prevDesc", Desc)

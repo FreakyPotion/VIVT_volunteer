@@ -190,7 +190,7 @@ class ProfileFragment : Fragment() {
                             val EventsSQL: PreparedStatement = connect!!.prepareStatement(
                                 "SELECT События.*, Пользователи.Имя, Пользователи.Фамилия, Пользователи.Отчество " +
                                         "FROM События JOIN Пользователи ON События.Организатор = Пользователи.\"User_ID\" WHERE События.Организатор = ? " +
-                                        "AND Дата >= CURRENT_DATE;"
+                                        "AND Завершено = 0;"
                             )
                             val id = user.getInt("User_ID", 0)
                             EventsSQL.setInt(1, id)
@@ -270,7 +270,7 @@ class ProfileFragment : Fragment() {
                                         val EventsSQL: PreparedStatement = connect!!.prepareStatement(
                                             "SELECT События.*, Пользователи.Имя, Пользователи.Фамилия, Пользователи.Отчество " +
                                                     "FROM События JOIN Пользователи ON События.Организатор = Пользователи.\"User_ID\" WHERE События.Организатор = ? " +
-                                                    "AND Дата >= CURRENT_DATE;"
+                                                    "AND Завершено = 0;"
                                         )
                                         val id = user.getInt("User_ID", 0)
                                         EventsSQL.setInt(1, id)
@@ -348,7 +348,7 @@ class ProfileFragment : Fragment() {
                                         val EventsSQL: PreparedStatement = connect!!.prepareStatement(
                                             "SELECT События.*, Пользователи.Имя, Пользователи.Фамилия, Пользователи.Отчество " +
                                                     "FROM События JOIN Пользователи ON События.Организатор = Пользователи.\"User_ID\" WHERE События.Организатор = ? " +
-                                                    "AND Дата < CURRENT_DATE;"
+                                                    "AND Завершено = 1;"
                                         )
                                         val id = user.getInt("User_ID", 0)
                                         EventsSQL.setInt(1, id)
@@ -435,7 +435,7 @@ class ProfileFragment : Fragment() {
                                         "WHERE События.\"Event_ID\" = Запросы.\"Event_ID\" " +
                                         "AND Запросы.\"User_ID\" = ? " +
                                         "AND Запросы.\"Status_ID\" = 0 " +
-                                        "AND События.Дата >= CURRENT_DATE;"
+                                        "AND События.Завершено = 0;"
                             )
                             val id = user.getInt("User_ID", 0)
                             EventsSQL.setInt(1, id)
@@ -520,7 +520,7 @@ class ProfileFragment : Fragment() {
                                                     "WHERE События.\"Event_ID\" = Запросы.\"Event_ID\" " +
                                                     "AND Запросы.\"User_ID\" = ? " +
                                                     "AND Запросы.\"Status_ID\" = 0 " +
-                                                    "AND События.Дата >= CURRENT_DATE;"
+                                                    "AND Завершено = 0;"
                                         )
                                         val id = user.getInt("User_ID", 0)
                                         EventsSQL.setInt(1, id)
@@ -603,7 +603,7 @@ class ProfileFragment : Fragment() {
                                                     "WHERE События.\"Event_ID\" = Запросы.\"Event_ID\" " +
                                                     "AND Запросы.\"User_ID\" = ? " +
                                                     "AND Запросы.\"Status_ID\" = 0 " +
-                                                    "AND События.Дата < CURRENT_DATE;"
+                                                    "AND Завершено = 1;"
                                         )
                                         val id = user.getInt("User_ID", 0)
                                         EventsSQL.setInt(1, id)

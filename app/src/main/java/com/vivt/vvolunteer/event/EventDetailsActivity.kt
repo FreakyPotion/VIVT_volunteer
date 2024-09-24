@@ -156,7 +156,7 @@ class EventDetailsActivity : AppCompatActivity() {
         // Кнопка "Завершить событие"
         val finishEvent: Button = findViewById(R.id.finishButton)
         finishEvent.setOnClickListener {
-            val intent = Intent(this, EventFinishActivity::class.java)
+            val intent = Intent(this, EventFinishText::class.java)
             intent.putExtra("eventid", eventid)
             intent.putExtra("prevTitle", Title.text).toString()
             intent.putExtra("prevDate", Date.text).toString()
